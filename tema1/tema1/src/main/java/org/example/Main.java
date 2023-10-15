@@ -1,12 +1,23 @@
 package org.example;
+import java.util.List;
+import java.util.Set;
 
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) {
-        State state = new State(new Integer[]{8, 6, 7, 2, 5, 4, 0, 3, 1});
-        System.out.println(state.toString());
-        System.out.println(Transition.moveLeft(state));
-
+        // 0 2 3
+        // 1 4 5
+        // 6 7 8
+        State state = new State(new Integer[]{2, 7, 5, 0, 8, 4, 3, 1, 6});
+//        System.out.println(state);
+//        System.out.println(Transition.moveUp(state));
+//        System.out.println(Transition.moveDown(state));
+//        System.out.println(Transition.moveLeft(state));
+//        System.out.println(Transition.moveRight(state));
+        List<State> solution = IDDFS.run(state, 30);
+        assert solution != null;
+        for(var s : solution){
+            System.out.println(s);
+            System.out.println();
+        }
     }
 }

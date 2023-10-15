@@ -21,12 +21,13 @@ public class Transition {
         return true;
     }
 
-    public static State moveUp(State state){
+    public static State moveUp(State state) {
         if (state.getLastMovedCell() == Direction.DOWN) {
             return state;
         }
 
-        State newState = new State(state.getMatrix());
+//        return new State(state, state.getEmptyCell(), state.getEmptyCell() + 3, Direction.TOP);
+        State newState = new State(state);
         newState.setCellAt(state.getEmptyCell(), newState.getCellAt(state.getEmptyCell() + 3));
         newState.setCellAt(state.getEmptyCell() + 3, 0);
         newState.setEmptyCell(state.getEmptyCell() + 3);
@@ -34,12 +35,13 @@ public class Transition {
         return newState;
     }
 
-    public static State moveDown(State state){
-        if (state.getLastMovedCell() == Direction.TOP) {//emptyCell >= 3
+    public static State moveDown(State state) {
+        if (state.getLastMovedCell() == Direction.TOP) {
             return state;
         }
 
-        State newState = new State(state.getMatrix());
+//        return new State(state, state.getEmptyCell(), state.getEmptyCell() - 3, Direction.DOWN);
+        State newState = new State(state);
         newState.setCellAt(state.getEmptyCell(), newState.getCellAt(state.getEmptyCell() - 3));
         newState.setCellAt(state.getEmptyCell() - 3, 0);
         newState.setEmptyCell(state.getEmptyCell() - 3);
@@ -48,28 +50,35 @@ public class Transition {
     }
 
     public static State moveRight(State state) {
-        if (state.getLastMovedCell() == Direction.LEFT || state.getEmptyCell() % 3 == 0) {
+        if (state.getLastMovedCell() == Direction.LEFT) {
             return state;
         }
-        State newState = new State(state.getMatrix());
+
+//        return new State(state, state.getEmptyCell(), state.getEmptyCell() - 1, Direction.RIGHT);
+        State newState = new State(state);
         newState.setCellAt(state.getEmptyCell(), newState.getCellAt(state.getEmptyCell() - 1));
         newState.setEmptyCell(state.getEmptyCell() - 1);
         newState.setCellAt(state.getEmptyCell() - 1, 0);
-        newState.setLastMovedCell(Direction.TOP);
+        newState.setLastMovedCell(Direction.RIGHT);
         return newState;
     }
 
     public static State moveLeft(State state) {
-        if (state.getLastMovedCell() == Direction.RIGHT || state.getEmptyCell() % 3 == 2) {
+        if (state.getLastMovedCell() == Direction.RIGHT) {
             return state;
         }
 
-        State newState = new State(state.getMatrix());
+//        return new State(state, state.getEmptyCell(), state.getEmptyCell() + 1, Direction.LEFT);
+        State newState = new State(state);
         newState.setCellAt(state.getEmptyCell(), newState.getCellAt(state.getEmptyCell() + 1));
         newState.setEmptyCell(state.getEmptyCell() + 1);
         newState.setCellAt(state.getEmptyCell() + 1, 0);
-        newState.setLastMovedCell(Direction.TOP);
+        newState.setLastMovedCell(Direction.LEFT);
         return newState;
+    }
+
+    public static boolean isValid(State oldState, State newState) {
+        return !oldState.equals(newState);
     }
 
 }
