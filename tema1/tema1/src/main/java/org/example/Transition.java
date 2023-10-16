@@ -26,13 +26,13 @@ public class Transition {
             return state;
         }
 
-//        return new State(state, state.getEmptyCell(), state.getEmptyCell() + 3, Direction.TOP);
-        State newState = new State(state);
-        newState.setCellAt(state.getEmptyCell(), newState.getCellAt(state.getEmptyCell() + 3));
-        newState.setCellAt(state.getEmptyCell() + 3, 0);
-        newState.setEmptyCell(state.getEmptyCell() + 3);
-        newState.setLastMovedCell(Direction.TOP);
-        return newState;
+        return new State(state, state.getEmptyCell(), state.getEmptyCell() + 3, Direction.TOP);
+//        State newState = new State(state);
+//        newState.setCellAt(state.getEmptyCell(), newState.getCellAt(state.getEmptyCell() + 3));
+//        newState.setCellAt(state.getEmptyCell() + 3, 0);
+//        newState.setEmptyCell(state.getEmptyCell() + 3);
+//        newState.setLastMovedCell(Direction.TOP);
+//        return newState;
     }
 
     public static State moveDown(State state) {
@@ -40,13 +40,13 @@ public class Transition {
             return state;
         }
 
-//        return new State(state, state.getEmptyCell(), state.getEmptyCell() - 3, Direction.DOWN);
-        State newState = new State(state);
-        newState.setCellAt(state.getEmptyCell(), newState.getCellAt(state.getEmptyCell() - 3));
-        newState.setCellAt(state.getEmptyCell() - 3, 0);
-        newState.setEmptyCell(state.getEmptyCell() - 3);
-        newState.setLastMovedCell(Direction.DOWN);
-        return newState;
+        return new State(state, state.getEmptyCell(), state.getEmptyCell() - 3, Direction.DOWN);
+//        State newState = new State(state);
+//        newState.setCellAt(state.getEmptyCell(), newState.getCellAt(state.getEmptyCell() - 3));
+//        newState.setCellAt(state.getEmptyCell() - 3, 0);
+//        newState.setEmptyCell(state.getEmptyCell() - 3);
+//        newState.setLastMovedCell(Direction.DOWN);
+//        return newState;
     }
 
     public static State moveRight(State state) {
@@ -54,13 +54,13 @@ public class Transition {
             return state;
         }
 
-//        return new State(state, state.getEmptyCell(), state.getEmptyCell() - 1, Direction.RIGHT);
-        State newState = new State(state);
-        newState.setCellAt(state.getEmptyCell(), newState.getCellAt(state.getEmptyCell() - 1));
-        newState.setEmptyCell(state.getEmptyCell() - 1);
-        newState.setCellAt(state.getEmptyCell() - 1, 0);
-        newState.setLastMovedCell(Direction.RIGHT);
-        return newState;
+        return new State(state, state.getEmptyCell(), state.getEmptyCell() - 1, Direction.RIGHT);
+//        State newState = new State(state);
+//        newState.setCellAt(state.getEmptyCell(), newState.getCellAt(state.getEmptyCell() - 1));
+//        newState.setEmptyCell(state.getEmptyCell() - 1);
+//        newState.setCellAt(state.getEmptyCell() - 1, 0);
+//        newState.setLastMovedCell(Direction.RIGHT);
+//        return newState;
     }
 
     public static State moveLeft(State state) {
@@ -68,13 +68,13 @@ public class Transition {
             return state;
         }
 
-//        return new State(state, state.getEmptyCell(), state.getEmptyCell() + 1, Direction.LEFT);
-        State newState = new State(state);
-        newState.setCellAt(state.getEmptyCell(), newState.getCellAt(state.getEmptyCell() + 1));
-        newState.setEmptyCell(state.getEmptyCell() + 1);
-        newState.setCellAt(state.getEmptyCell() + 1, 0);
-        newState.setLastMovedCell(Direction.LEFT);
-        return newState;
+        return new State(state, state.getEmptyCell(), state.getEmptyCell() + 1, Direction.LEFT);
+//        State newState = new State(state);
+//        newState.setCellAt(state.getEmptyCell(), newState.getCellAt(state.getEmptyCell() + 1));
+//        newState.setEmptyCell(state.getEmptyCell() + 1);
+//        newState.setCellAt(state.getEmptyCell() + 1, 0);
+//        newState.setLastMovedCell(Direction.LEFT);
+//        return newState;
     }
 
     public static boolean isValid(State oldState, State newState) {
