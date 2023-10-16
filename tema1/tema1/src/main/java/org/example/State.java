@@ -1,9 +1,8 @@
 package org.example;
 
 import java.util.Arrays;
-import java.util.concurrent.ConcurrentMap;
 
-public class State {//3 partitions
+public class State {
     public static final Integer STATE_SIZE = 9;
     private final Integer[] matrix;
     private Direction lastMovedCell;
@@ -22,18 +21,9 @@ public class State {//3 partitions
         }
     }
 
-    public State(State toCopy) {
-        this.matrix = new Integer[STATE_SIZE];
-        for (int i = 0; i < STATE_SIZE; i++) {
-            this.matrix[i] = toCopy.getCellAt(i);
-        }
-        this.emptyCell = -1;
-        this.lastMovedCell = Direction.NONE;
-    }
-
-    public State(State toCopy, Integer emptyCellPos, Integer initialCell, Direction direction){
+    public State(State toCopy, Integer emptyCellPos, Integer initialCell, Direction direction) {
         this.matrix = Arrays.copyOf(toCopy.getMatrix(), State.STATE_SIZE);
-        this.emptyCell = emptyCellPos;
+        this.emptyCell = initialCell;
         this.matrix[emptyCellPos] = this.matrix[initialCell];
         this.matrix[initialCell] = 0;
         this.lastMovedCell = direction;
@@ -51,22 +41,6 @@ public class State {//3 partitions
         return matrix;
     }
 
-    public void setLastMovedCell(Direction lastMovedCell) {
-        this.lastMovedCell = lastMovedCell;
-    }
-
-    public void setEmptyCell(Integer emptyCell) {
-        this.emptyCell = emptyCell;
-    }
-
-    public Integer getCellAt(int i) {
-        return matrix[i];
-    }
-
-    public void setCellAt(int index, int num) {
-        matrix[index] = num;
-    }
-
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -79,8 +53,4 @@ public class State {//3 partitions
         return stringBuilder.toString();
     }
 
-//    @Override
-//    public int compareTo(State o) {
-//        return 0;
-//    }
 }

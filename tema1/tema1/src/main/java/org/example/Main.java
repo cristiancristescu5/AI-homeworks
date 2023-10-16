@@ -1,19 +1,16 @@
 package org.example;
-import java.util.List;
-import java.util.Set;
 
 public class Main {
+
     public static void main(String[] args) {
-        // 0 2 3
-        // 1 4 5
-        // 6 7 8
-        State state = new State(new Integer[]{2, 5, 3, 1, 0, 6, 4, 7, 8});
-//        System.out.println(state);
-//        System.out.println(Transition.moveUp(state));
-//        System.out.println(Transition.moveDown(state));
-//        System.out.println(Transition.moveLeft(state));
-//        System.out.println(Transition.moveRight(state));
-//        List<State> solution = IDDFS.run(state, 30);
-        System.out.println(ALG.IDDFS(state, 10));
+        State state = new State(new Integer[]{2, 7, 5, 0, 8, 4, 3, 1, 6});
+        State state1 = new State(new Integer[]{2, 5, 3, 1, 0, 6, 4, 7, 8});
+        State state2 = new State(new Integer[]{8, 6, 7, 2, 5, 4, 0, 3, 1});
+        System.out.println(state);
+        System.out.println(IDDFS.run(state, 21));
+        System.out.println(state1);
+        System.out.println(IDDFS.run(state1, 21));
+        System.out.println(state2);
+        System.out.println(IDDFS.run(state2, 81));
     }
 }
