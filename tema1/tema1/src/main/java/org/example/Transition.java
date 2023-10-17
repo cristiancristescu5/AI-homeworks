@@ -37,9 +37,6 @@ public class Transition {
         return new State(state, state.getEmptyCell(), state.getEmptyCell() + 1, Direction.LEFT);
     }
 
-    public static boolean isValid(State oldState, State newState) {
-        return !oldState.equals(newState);
-    }
 
     public static boolean isValidDown(State state) {
         return state.getEmptyCell() > 2 && !state.getLastMovedCell().equals(Direction.TOP);

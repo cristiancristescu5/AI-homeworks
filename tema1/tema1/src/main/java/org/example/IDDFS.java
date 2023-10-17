@@ -26,7 +26,6 @@ public class IDDFS {
         }
         for (State ignored : neighbours) {
             if (!visited.contains(ignored)) {
-                visited.add(ignored);
                 var res = depthLimitedDFS(ignored, depth - 1, visited);
                 if (res != null) {
                     return res;
@@ -38,7 +37,7 @@ public class IDDFS {
 
     public static State run(State state, int maxDepth) {
         for (int depth = 0; depth <= maxDepth; depth++) {
-            List<State> states = new ArrayList<>();
+            List<State> states = new ArrayList<>(100);
             State sol = depthLimitedDFS(state, depth, states);
             if (sol != null) {
                 return sol;
