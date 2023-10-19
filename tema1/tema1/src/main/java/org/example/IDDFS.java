@@ -3,6 +3,8 @@ package org.example;
 import java.util.*;
 
 public class IDDFS {
+    private static List<State> solution = new ArrayList<>();
+
     private static State depthLimitedDFS(State state, int depth, List<State> visited) {
         if (Transition.isFinal(state)) {
             return state;
@@ -24,10 +26,11 @@ public class IDDFS {
         if (Transition.isValidRight(state)) {
             neighbours.add(Transition.moveRight(state));
         }
-        for (State ignored : neighbours) {
-            if (!visited.contains(ignored)) {
-                var res = depthLimitedDFS(ignored, depth - 1, visited);
+        for (State neighbour : neighbours) {
+            if (!visited.contains(neighbour)) {
+                var res = depthLimitedDFS(neighbour, depth - 1, visited);
                 if (res != null) {
+                    solution.addAll(visited);
                     return res;
                 }
             }
@@ -36,6 +39,7 @@ public class IDDFS {
     }
 
     public static State run(State state, int maxDepth) {
+        solution = new ArrayList<>();
         for (int depth = 0; depth <= maxDepth; depth++) {
             List<State> states = new ArrayList<>(100);
             State sol = depthLimitedDFS(state, depth, states);
@@ -44,5 +48,18 @@ public class IDDFS {
             }
         }
         return null;
+    }
+
+    public static List<State> getSolution() {
+        return solution;
+    }
+
+    public static void printSolution() {
+        if(solution.isEmpty()){
+            throw new IllegalStateException("The solution is empty");
+        }
+        for (State s : solution) {
+            System.out.println(s.toString());
+        }
     }
 }
