@@ -1,6 +1,8 @@
 package org.example;
 
 import org.example.Alg.*;
+import org.example.Solutions.GreedySolution;
+import org.example.Solutions.IDDFSSolution;
 import org.example.State.State;
 import java.util.Comparator;
 

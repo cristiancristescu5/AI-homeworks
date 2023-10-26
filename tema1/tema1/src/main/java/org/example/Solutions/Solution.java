@@ -1,4 +1,4 @@
-package org.example.Alg;
+package org.example.Solutions;
 
 import org.example.State.State;
 

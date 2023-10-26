@@ -1,5 +1,7 @@
-package org.example.Alg;
+package org.example.Solutions;
 
+import org.example.Alg.Greedy;
+import org.example.Solutions.Solution;
 import org.example.State.State;
 
 import java.util.Comparator;
