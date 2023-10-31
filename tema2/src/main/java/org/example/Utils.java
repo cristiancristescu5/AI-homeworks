@@ -6,7 +6,7 @@ import org.example.Instance.Sudoku;
 import java.util.*;
 
 public class Utils {
-    public static Map<Position, List<Integer>> getDomains(Sudoku sudoku, List<Position> pos) {//creating the initial domain
+    public static Map<Position, List<Integer>> getInitialDomains(Sudoku sudoku, List<Position> pos) {//creating the initial domain
         Map<Position, List<Integer>> domain = new HashMap<>();//variables -> domain
 
         Integer[][] vars = sudoku.getVars();//instance
@@ -92,10 +92,15 @@ public class Utils {
 
     public static Sudoku updateInstance(Sudoku sudoku, Position var, Integer value) {
         sudoku.setCell(var.getLine(), var.getColumn(), value);
-        return sudoku;
+        Integer[][] newVars = new Integer[9][9];
+        Integer[][] old = sudoku.getVars();
+        for(int i = 0 ; i < 9 ; i++){
+            newVars[i] = Arrays.copyOf(old[0], 9);
+        }
+        return new Sudoku(newVars);
     }
 
-    public static Position getNextUnassignedVar(Sudoku sudoku, Set<Position> positions) {
+    public static Position getNextUnassignedVar(Sudoku sudoku, List<Position> positions) {
         int line = -1, col = -1;
         Integer[][] ins = sudoku.getVars();
 
