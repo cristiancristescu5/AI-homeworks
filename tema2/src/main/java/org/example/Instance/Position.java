@@ -1,4 +1,4 @@
-package org.example;
+package org.example.Instance;
 
 public class Position {
     private int line, column;

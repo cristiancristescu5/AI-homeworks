@@ -1,5 +1,8 @@
 package org.example;
 
+import org.example.Instance.Position;
+import org.example.Instance.Sudoku;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,14 +33,14 @@ public class Utils {
                 domain.get(p).addAll(even);
                 for (int i = 0; i < 9; i++) {//lines
                     if (even.contains(vars[i][col])) {
-                        if(!domain.get(p).remove(vars[i][col])){
+                        if (!domain.get(p).remove(vars[i][col])) {
                             throw new IllegalArgumentException("Duplicate elements.");
                         }
                     }
                 }
                 for (int i = 0; i < 9; i++) {//columns
                     if (even.contains(vars[line][i])) {
-                        if(!domain.get(p).remove(vars[line][i])){
+                        if (!domain.get(p).remove(vars[line][i])) {
                             throw new IllegalArgumentException("Duplicate elements.");
                         }
                     }
@@ -48,14 +51,14 @@ public class Utils {
                 domain.get(p).addAll(maxDom);
                 for (int i = 0; i < 9; i++) {//lines
                     if (vars[i][col] > 0) {
-                        if(!domain.get(p).remove(vars[i][col])){
+                        if (!domain.get(p).remove(vars[i][col])) {
                             throw new IllegalArgumentException("Duplicate elements.");
                         }
                     }
                 }
                 for (int i = 0; i < 9; i++) {
                     if (vars[line][i] > 0) {
-                        if(!domain.get(p).remove(vars[i][col])){
+                        if (!domain.get(p).remove(vars[i][col])) {
                             throw new IllegalArgumentException("Duplicate elements.");
                         }
                     }
@@ -65,11 +68,11 @@ public class Utils {
         return domain;
     }
 
-    public static boolean isComplete(Sudoku sudoku){//checking it an assignment is solution
+    public static boolean isComplete(Sudoku sudoku) {//checking it an assignment is solution
         Integer[][] var = sudoku.getVars();
-        for(int i = 0 ; i < 9 ; i++){
-            for(int j = 0 ; j < 9 ; j++){
-                if(var[i][j] == -1 || var[i][j] == 0){
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (var[i][j] == -1 || var[i][j] == 0) {
                     return false;
                 }
             }
@@ -77,8 +80,16 @@ public class Utils {
         return true;
     }
 
-    public static boolean isConsistent() {
+    public static boolean isConsistent(Sudoku sudoku, Position var, Integer value) {
 
         return true;
+    }
+
+    public static void updateInstance(Sudoku sudoku, Position var, Integer value) {
+        sudoku.setCell(var.getLine(), var.getColumn(), value);
+    }
+
+    public static void updateDomains(Sudoku sudoku, Position var, Integer value) {
+
     }
 }

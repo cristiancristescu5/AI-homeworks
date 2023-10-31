@@ -1,4 +1,7 @@
-package org.example;
+package org.example.Instance;
+
+import org.example.Instance.Position;
+import org.example.Utils;
 
 import java.util.*;
 
@@ -21,6 +24,10 @@ public class Sudoku {
         domains = Utils.getDomains(this);
     }
 
+    public void setCell(int line, int col, Integer val) {
+        vars[line][col] = val;
+    }
+
     public Integer[][] getVars() {
         return vars;
     }
@@ -29,19 +36,33 @@ public class Sudoku {
         return domains;
     }
 
-    public List<Integer> getDomain(int l, int c) {
-        return domains.get(new Position(l, c));
+    public List<Integer> getDomain(Position p) {
+        return domains.get(p);
     }
 
-    public void setVars(Integer[][] vars) {
-        this.vars = vars;
+    public Position getPosition(int line, int col) {
+        for (Position p : positions) {
+            if (p.getLine() == line && p.getColumn() == col) {
+                return p;
+            }
+        }
+        return null;
     }
+
 
     public List<Position> getPositions() {
         return positions;
     }
 
-    public void setDomain(int l, int c, List<Integer> domain) {
-
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                stringBuilder.append(vars[i][j]).append("|");
+            }
+            stringBuilder.append("\n");
+        }
+        return stringBuilder.toString();
     }
 }
