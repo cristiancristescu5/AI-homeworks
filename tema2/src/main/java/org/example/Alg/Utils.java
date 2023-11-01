@@ -1,15 +1,12 @@
-package org.example;
+package org.example.Alg;
 
 import org.example.Instance.Sudoku;
 import org.example.Instance.Variable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.*;
 import java.util.stream.IntStream;
 
-public class NewUtils {
+public class Utils {
     public static List<Variable> getInitialDomains(Sudoku sudoku) {
         Integer[][] values = sudoku.getVars();
         List<Variable> variables = new ArrayList<>();
@@ -124,7 +121,15 @@ public class NewUtils {
         return new Sudoku(newTable);
     }
 
-    private static Variable getVariable(final List<Variable> variables, int row, int column) {
+    public static Optional<Variable> getNextUnassignedVarMRV(Sudoku sudoku, List<Variable> domain){
+        Integer[][] var = sudoku.getVars();
+        return domain.stream()
+                .filter(variable -> var[variable.getLine()][variable.getColumn()] <= 0)
+                .min(Comparator.comparingInt(i -> i.getDomain().size()));
+    }
+
+
+    public static Variable getVariable(final List<Variable> variables, int row, int column) {
         return variables.stream()
                 .filter(variable -> variable.getLine() == row && variable.getColumn() == column)
                 .findFirst().orElseThrow();

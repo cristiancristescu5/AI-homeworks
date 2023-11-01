@@ -1,12 +1,12 @@
 package org.example;
 
+import org.example.Alg.ArcConsistency;
 import org.example.Alg.BKT;
+import org.example.Alg.Utils;
 import org.example.Instance.Variable;
 import org.example.Instance.Sudoku;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
@@ -32,12 +32,11 @@ public class Main {
                 {9, 3, -1, -1, -1, 6, 5, 2, 7},
                 {5, 7, 0, 9, 2, -1, 8, 1, 3}
         };
-//        Arrays.stream(instance2).forEach(arr -> Arrays.stream(arr).forEach(System.out::println));
         Sudoku sudoku = new Sudoku(instance);
-        List<Variable> domain = NewUtils.getInitialDomains(sudoku);
-//        System.out.println(NewUtils.isConsistent(sudoku, new Variable(1, 5),8));
-//        System.out.println(domain);
+        List<Variable> domain = Utils.getInitialDomains(sudoku);
+//        ArcConsistency.arcConsistency(domain);
         System.out.println(BKT.runBKTWithFC(sudoku, domain));
-//        System.out.println(NewUtils.updateInstance(sudoku, new Variable(0, 2), 2));
+        System.out.println("-----------------------------------------");
+        System.out.println(BKT.runBKTfcMRV(sudoku, domain));
     }
 }
