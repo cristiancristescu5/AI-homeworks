@@ -2,18 +2,15 @@ package org.example.Instance;
 
 
 public class Sudoku {
-    public static final int SIZE = 81;
-    private Integer[][] vars;
+    public static final int SIZE = 9;
+
+    private final Integer[][] vars;
 
     public Sudoku(Integer[][] var) {
-        if (var.length * var[0].length != SIZE) {
-            throw new IllegalArgumentException("The length of the instance must be 81");
-        }
-        vars = var;
-    }
+        if(var.length != Sudoku.SIZE || var[0].length != Sudoku.SIZE)
+            throw new IllegalArgumentException("Matrix dimension must be " + Sudoku.SIZE + "!");
 
-    public void setCell(int line, int col, Integer val) {
-        vars[line][col] = val;
+        vars = var;
     }
 
     public Integer[][] getVars() {
@@ -24,8 +21,8 @@ public class Sudoku {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
+        for (int i = 0; i < Sudoku.SIZE; i++) {
+            for (int j = 0; j < Sudoku.SIZE; j++) {
                 stringBuilder.append(vars[i][j]).append("|");
             }
             stringBuilder.append("\n");
