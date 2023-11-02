@@ -61,16 +61,6 @@ public class Utils {
         return variables;
     }
 
-    public static Variable getNextUnassignedVar(Sudoku sudoku, List<Variable> domain) {
-        var configuration = sudoku.getVars();
-        for (int row = 0; row < Sudoku.SIZE; row++)
-            for (int column = 0; column < Sudoku.SIZE; column++)
-                if (configuration[row][column] <= 0)
-                    return getVariable(domain, row, column);
-
-        return null;
-    }
-
     public static boolean isComplete(Sudoku sudoku) {
         return Arrays.stream(sudoku.getVars())
                 .allMatch(row -> Arrays.stream(row).allMatch(val -> val > 0));
@@ -119,21 +109,6 @@ public class Utils {
     public static boolean existsEmptyDomain(List<Variable> variables) {
         return variables.stream().noneMatch(variable -> variable.getDomain().isEmpty());
     }
-
-
-    public static Sudoku updateInstance(Sudoku sudoku, Variable var, Integer value) {
-        Integer[][] newTable = Arrays.stream(sudoku.getVars()).map(Integer[]::clone).toArray(Integer[][]::new);
-        newTable[var.getLine()][var.getColumn()] = value;
-        return new Sudoku(newTable);
-    }
-
-    public static Optional<Variable> getNextUnassignedVarMRV(Sudoku sudoku, List<Variable> domain){
-        Integer[][] var = sudoku.getVars();
-        return domain.stream()
-                .filter(variable -> var[variable.getLine()][variable.getColumn()] <= 0)
-                .min(Comparator.comparingInt(i -> i.getDomain().size()));
-    }
-
 
     public static Variable getVariable(List<Variable> variables, int row, int column) {
         return variables.stream()
