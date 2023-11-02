@@ -6,8 +6,10 @@ import org.example.Alg.Utils;
 import org.example.Instance.Variable;
 import org.example.Instance.Sudoku;
 
+import java.sql.Time;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Timer;
 
 public class Main {
     public static void main(String[] args) {
@@ -33,20 +35,38 @@ public class Main {
                 {9, 3, -1, -1, -1, 6, 5, 2, 7},
                 {5, 7, 0, 9, 2, -1, 8, 1, 3}
         };
+
         Sudoku sudoku = new Sudoku(instance);
+//        Sudoku sudokuTest = new Sudoku(instanceTest);
+
+//        List<Variable> domainTest = Utils.getInitialDomains(sudokuTest);
         List<Variable> domain = Utils.getInitialDomains(sudoku);
 //        ArcConsistency.arcConsistency(domain);
+
+        var time = System.currentTimeMillis();
         System.out.println(BKT.runBKTWithFC(sudoku, domain));
+        System.out.println(System.currentTimeMillis() - time);
         System.out.println("-----------------------------------------");
         System.out.println(BKT.runBKTfcMRV(sudoku, domain));
         System.out.println("-----------------------------------------");
         BKT.setChoiceOfVariable(x -> y -> Utils.getNextUnassignedVar(x, y));
+        time = System.currentTimeMillis();
         System.out.println(BKT.run(new Sudoku(instance), domain));
+        System.out.println(System.currentTimeMillis() - time);
         System.out.println("-----------------------------------------");
         BKT.setChoiceOfVariable(x -> y -> domain.stream()
                 .filter(variable -> x.getVars()[variable.getLine()][variable.getColumn()] <= 0)
                 .min(Comparator.comparingInt(i -> i.getDomain().size())).orElseThrow()
         );
+        time = System.currentTimeMillis();
         System.out.println(BKT.run(new Sudoku(instance2), domain));
+//        System.out.println(System.currentTimeMillis() - time);
+//        System.out.println(BKT.runBKTWithFC(sudokuTest, domainTest));
+
+//        time = System.currentTimeMillis();
+//        System.out.println("-----------------------------------------");
+//        System.out.println(BKT.run(sudokuTest, domainTest));
+//        System.out.println(System.currentTimeMillis() - time);
+
     }
 }
