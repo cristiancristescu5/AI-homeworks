@@ -1,6 +1,5 @@
 package org.example;
 
-import org.example.Alg.ArcConsistency;
 import org.example.Alg.BKT;
 import org.example.Alg.Utils;
 import org.example.Instance.Variable;
