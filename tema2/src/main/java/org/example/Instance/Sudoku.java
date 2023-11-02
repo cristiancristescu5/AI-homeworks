@@ -6,11 +6,11 @@ public class Sudoku {
 
     private final Integer[][] vars;
 
-    public Sudoku(Integer[][] var) {
-        if(var.length != Sudoku.SIZE || var[0].length != Sudoku.SIZE)
+    public Sudoku(Integer[][] startingConfiguration) {
+        if(startingConfiguration.length != Sudoku.SIZE || startingConfiguration[0].length != Sudoku.SIZE)
             throw new IllegalArgumentException("Matrix dimension must be " + Sudoku.SIZE + "!");
 
-        vars = var;
+        vars = startingConfiguration;
     }
 
     public Integer[][] getVars() {
@@ -21,12 +21,11 @@ public class Sudoku {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < Sudoku.SIZE; i++) {
-            for (int j = 0; j < Sudoku.SIZE; j++) {
-                stringBuilder.append(vars[i][j]).append("|");
-            }
-            stringBuilder.append("\n");
-        }
+
+        for (int row = 0; row < Sudoku.SIZE; row++)
+            for (int column = 0; column < Sudoku.SIZE; column++)
+                stringBuilder.append(vars[row][column]).append(column == (Sudoku.SIZE - 1) ? "\n" : " | ");
+
         return stringBuilder.toString();
     }
 }

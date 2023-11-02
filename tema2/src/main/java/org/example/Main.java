@@ -6,6 +6,7 @@ import org.example.Alg.Utils;
 import org.example.Instance.Variable;
 import org.example.Instance.Sudoku;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class Main {
@@ -38,5 +39,14 @@ public class Main {
         System.out.println(BKT.runBKTWithFC(sudoku, domain));
         System.out.println("-----------------------------------------");
         System.out.println(BKT.runBKTfcMRV(sudoku, domain));
+        System.out.println("-----------------------------------------");
+        BKT.setChoiceOfVariable(x -> y -> Utils.getNextUnassignedVar(x, y));
+        System.out.println(BKT.run(new Sudoku(instance), domain));
+        System.out.println("-----------------------------------------");
+        BKT.setChoiceOfVariable(x -> y -> domain.stream()
+                .filter(variable -> x.getVars()[variable.getLine()][variable.getColumn()] <= 0)
+                .min(Comparator.comparingInt(i -> i.getDomain().size())).orElseThrow()
+        );
+        System.out.println(BKT.run(new Sudoku(instance2), domain));
     }
 }

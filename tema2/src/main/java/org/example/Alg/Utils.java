@@ -8,46 +8,51 @@ import java.util.stream.IntStream;
 
 public class Utils {
     public static List<Variable> getInitialDomains(Sudoku sudoku) {
-        Integer[][] values = sudoku.getVars();
-        List<Variable> variables = new ArrayList<>();
-        List<Integer> even = List.of(2, 4, 6, 8);
-        List<Integer> maxDomain = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        Integer[][] configuration = sudoku.getVars();
 
-        for (int i = 0; i < Sudoku.SIZE; i++) {
-            for (int j = 0; j < Sudoku.SIZE; j++) {
-                variables.add(new Variable(i, j));
+        List<Variable> variables = new ArrayList<>();
+
+        List<Integer> even = List.of(2, 4, 6, 8),
+                maxDomain = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
+
+        for (int row = 0; row < Sudoku.SIZE; row++) {
+            for (int column = 0; column < Sudoku.SIZE; column++) {
+                variables.add(new Variable(row, column));
             }
         }
-        for (Variable v : variables) {
-            int line = v.getLine();
-            int col = v.getColumn();
-            if (values[line][col] > 0) {
-                v.addToDomain(values[line][col]);
+        for (Variable variable : variables) {
+            int line = variable.getLine(),
+                    col = variable.getColumn();
+
+            if (configuration[line][col] > 0) {
+                variable.addToDomain(configuration[line][col]);
+                continue;
             }
-            if (values[line][col] == 0) {//even number
-                v.addToDomain(even);
+
+            variable.addToDomain(configuration[line][col] == 0 ? even : maxDomain);
+
+            if (configuration[line][col] == 0) {//even number
                 for (int i = 0; i < 9; i++) {//lines
-                    if (even.contains(values[i][col])) {
-                        v.removeFromDomain(values[i][col]);
+                    if (even.contains(configuration[i][col])) {
+                        variable.removeFromDomain(configuration[i][col]);
                     }
                 }
                 for (int i = 0; i < 9; i++) {//columns
-                    if (even.contains(values[line][i])) {
-                        v.removeFromDomain(values[line][i]);
+                    if (even.contains(configuration[line][i])) {
+                        variable.removeFromDomain(configuration[line][i]);
                     }
                 }
             }
 
-            if (values[line][col] == -1) {//any number
-                v.addToDomain(maxDomain);
+            if (configuration[line][col] == -1) {//any number
                 for (int i = 0; i < 9; i++) {//lines
-                    if (values[i][col] > 0) {
-                        v.removeFromDomain(values[i][col]);
+                    if (configuration[i][col] > 0) {
+                        variable.removeFromDomain(configuration[i][col]);
                     }
                 }
                 for (int i = 0; i < 9; i++) {
-                    if (values[line][i] > 0) {
-                        v.removeFromDomain(values[line][i]);
+                    if (configuration[line][i] > 0) {
+                        variable.removeFromDomain(configuration[line][i]);
                     }
                 }
             }
@@ -97,25 +102,26 @@ public class Utils {
 
     public static boolean isConsistent(Sudoku sudoku, Variable var, Integer value) {
         var configuration = sudoku.getVars();
-        int line = var.getLine();
-        int col = var.getColumn();
+        int rowPos = var.getLine();
+        int colPos = var.getColumn();
 
-        var found = IntStream.range(0, Sudoku.SIZE)
-                .noneMatch(ind -> configuration[ind][col].equals(value) || configuration[line][ind].equals(value));
-
-        for(int row = line - line % 3, limitRow = row + 3; row < limitRow; row++)
-            for(int column = col - col % 3, limitCol = column + 3; column < limitCol; column++)
+        // checks if :value: is unique in his square
+        for(int row = rowPos - rowPos % 3, limitRow = row + 3; row < limitRow; row++)
+            for(int column = colPos - colPos % 3, limitCol = column + 3; column < limitCol; column++)
                 if(configuration[row][column].equals(value))
                     return false;
-        return found;
+
+        // checks if :value: is unique on column and row
+        return IntStream.range(0, Sudoku.SIZE)
+                .noneMatch(ind -> configuration[ind][colPos].equals(value) || configuration[rowPos][ind].equals(value));
     }
 
     public static boolean existsEmptyDomain(List<Variable> variables) {
-        return variables.stream().anyMatch(variable -> variable.getDomain().isEmpty());
+        return variables.stream().noneMatch(variable -> variable.getDomain().isEmpty());
     }
 
 
-    public static Sudoku updateInstance(final Sudoku sudoku, Variable var, Integer value) {
+    public static Sudoku updateInstance(Sudoku sudoku, Variable var, Integer value) {
         Integer[][] newTable = Arrays.stream(sudoku.getVars()).map(Integer[]::clone).toArray(Integer[][]::new);
         newTable[var.getLine()][var.getColumn()] = value;
         return new Sudoku(newTable);
@@ -129,7 +135,7 @@ public class Utils {
     }
 
 
-    public static Variable getVariable(final List<Variable> variables, int row, int column) {
+    public static Variable getVariable(List<Variable> variables, int row, int column) {
         return variables.stream()
                 .filter(variable -> variable.getLine() == row && variable.getColumn() == column)
                 .findFirst().orElseThrow();
