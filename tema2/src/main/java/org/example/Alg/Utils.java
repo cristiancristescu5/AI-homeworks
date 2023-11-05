@@ -87,6 +87,21 @@ public class Utils {
             }
         }
 
+        int initLine = variable.getLine() - variable.getLine() % 3;
+        int initCol = variable.getColumn() - variable.getColumn() % 3;
+
+        int lastLine =  initLine + 3;
+        int lastCol = initCol + 3;
+
+//        List<Variable> dom = List.copyOf(newDomains);
+//
+//        dom.stream().filter(i -> (i.getLine() >= initLine && i.getLine() < lastLine && i.getColumn() >= initCol && i.getColumn() < lastCol))
+//                .forEach(i -> i.removeFromDomain(value));
+//
+//        for(Variable v :){
+//
+//        }
+
         return newDomains;
     }
 
@@ -96,9 +111,9 @@ public class Utils {
         int colPos = var.getColumn();
 
         // checks if :value: is unique in his square
-        for(int row = rowPos - rowPos % 3, limitRow = row + 3; row < limitRow; row++)
-            for(int column = colPos - colPos % 3, limitCol = column + 3; column < limitCol; column++)
-                if(configuration[row][column].equals(value))
+        for (int row = rowPos - rowPos % 3, limitRow = row + 3; row < limitRow; row++)
+            for (int column = colPos - colPos % 3, limitCol = column + 3; column < limitCol; column++)
+                if (configuration[row][column].equals(value))
                     return false;
 
         // checks if :value: is unique on column and row
