@@ -1,17 +1,23 @@
-package org.example;
+package org.example.State;
+
+import org.example.Player;
+
+import java.util.stream.IntStream;
 
 public class Transitions {
     public static State nextTransition(State oldState, int value, Player player) {
+        int[][] newTable = new int[State.SIZE][State.SIZE];
         int[][] old = oldState.getTable();
+        IntStream.range(0, State.SIZE).forEach(i -> IntStream.range(0, State.SIZE).forEach(j->newTable[i][j] = old[i][j]));
         int line = State.getLine(value);
         int col = State.getColumn(value);
 
-        if (old[line][col] != 0) {
+        if (newTable[line][col] != 0) {
             return null;
         }
 
-        old[line][col] = player.getTag();
-        return new State(old);
+        newTable[line][col] = player.getTag();
+        return new State(newTable);
     }
 
     public static boolean isValid(State state) {

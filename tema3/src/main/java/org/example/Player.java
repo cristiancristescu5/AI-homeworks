@@ -9,7 +9,7 @@ public enum Player {
         this.tag = tag;
     }
 
-    int getTag(){
+    public int getTag(){
         return this.tag;
     }
 }

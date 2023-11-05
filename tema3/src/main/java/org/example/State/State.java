@@ -1,4 +1,4 @@
-package org.example;
+package org.example.State;
 
 import java.util.Arrays;
 import java.util.stream.IntStream;
@@ -33,42 +33,16 @@ public class State {
                 .allMatch(row -> Arrays.stream(row)
                         .allMatch(element -> element != 0));
     }
-
-    public static int getColumn(int value) {
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                if (validationTable[i][j] == value) {
-                    return j;
+    public boolean isChosen(int cell){
+        for(int i = 0 ; i < SIZE ; i++){
+            for(int j = 0 ; j < SIZE; j++){
+                if(table[i][j] != 0 && validationTable[i][j] == cell){
+                    return true;
                 }
             }
         }
-
-        return -1;
+        return false;
     }
-
-    public static int getLine(int value) {
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                if (validationTable[i][j] == value) {
-                    return i;
-                }
-            }
-        }
-
-        return -1;
-    }
-
-    public int getFromCell(int line, int column) {
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                if (i == line && j == column) {
-                    return table[i][j];
-                }
-            }
-        }
-        return -2;
-    }
-
 
     @Override
     public String toString() {
@@ -85,4 +59,39 @@ public class State {
         }
         return stringBuilder.toString();
     }
+
+    public static int getColumn(int value) {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                if (validationTable[i][j] == value) {
+                    return j;
+                }
+            }
+        }
+
+        throw new IllegalArgumentException("Invalid number");
+    }
+
+    public static int getLine(int value) {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                if (validationTable[i][j] == value) {
+                    return i;
+                }
+            }
+        }
+        throw new IllegalArgumentException("Invalid value");
+    }
+
+    public int getFromCell(int line, int column) {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                if (i == line && j == column) {
+                    return table[i][j];
+                }
+            }
+        }
+        return -2;
+    }
+
 }
