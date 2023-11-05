@@ -32,6 +32,7 @@ public class Game {
                 if(round == -1){
                     System.out.println("AI next move!");
                     System.out.println("-----------------------------------------------");
+                    continue;
                 }
             }
             if(round == -1){

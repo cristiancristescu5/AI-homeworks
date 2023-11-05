@@ -44,20 +44,31 @@ public class State {
         return false;
     }
 
+    public int getFromCell(int line, int column) {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                if (i == line && j == column) {
+                    return table[i][j];
+                }
+            }
+        }
+        return -2;
+    }
+
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
                 if (table[i][j] == -1) {
-                    stringBuilder.append("AI: ").append(validationTable[i][j]).append(" ");
+                    stringBuilder.append("AI: ").append(validationTable[i][j]).append("|");
                 }
                 if (table[i][j] == 1) {
-                    stringBuilder.append("Human: ").append(validationTable[i][j]).append(" ");
+                    stringBuilder.append("Human: ").append(validationTable[i][j]).append("|");
                 }
             }
         }
-        return stringBuilder.toString();
+        return stringBuilder.toString().substring(0, stringBuilder.toString().length()-1);
     }
 
     public static int getColumn(int value) {
@@ -81,17 +92,6 @@ public class State {
             }
         }
         throw new IllegalArgumentException("Invalid value");
-    }
-
-    public int getFromCell(int line, int column) {
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                if (i == line && j == column) {
-                    return table[i][j];
-                }
-            }
-        }
-        return -2;
     }
 
 }

@@ -9,39 +9,55 @@ import java.util.List;
 
 public class AIStrategy {
 
-    public static int minimax(State state, int depth, Player player){
-        if(depth == 0 || state.isFinal()){
+    public static int minimax(State state, int depth, Player player) {
+        if (depth == 0 || state.isFinal()) {
             return heuristic(state, player);
         }
         int value;
-        if(player.getTag() == 1){
+        if (player.getTag() == 1) {
             value = Integer.MIN_VALUE;
-            for(State s : getNeighbours(state, Player.HUMAN)){
-                value = Math.max(value, minimax(s, depth-1, Player.AI));
+            for (State s : getNeighbours(state, Player.HUMAN)) {
+                value = Integer.max(value, minimax(s, depth - 1, Player.AI));
             }
-        }else{
+        } else {
             value = Integer.MAX_VALUE;
-            for(State s : getNeighbours(state, Player.AI)){
-                value = Math.min(value, minimax(s, depth - 1, Player.HUMAN));
+            for (State s : getNeighbours(state, Player.AI)) {
+                value = Integer.min(value, minimax(s, depth - 1, Player.HUMAN));
             }
         }
         return value;
     }
-    private static List<State> getNeighbours(State state, Player player){
+
+    private static List<State> getNeighbours(State state, Player player) {
         List<State> states = new ArrayList<>();
-        for(int i = 1 ; i < 10 ; i++){
+        for (int i = 1; i < 10; i++) {
             State newState = Transitions.nextTransition(state, i, player);
-            if(Transitions.isValid(newState)){
+            if (Transitions.isValid(newState)) {
                 states.add(newState);
             }
         }
         return states;
     }
 
+    private static int newHeuristic(State state, Player player) {
+        int countHuman = 0;
+        int countAI = 0;
+        for (int i = 1; i <= 9; i++) {
+            if (!state.isChosen(i)) {
+                if (player.getTag() == 1) {
+                    countHuman++;
+                } else {
+                    countAI++;
+                }
+            }
+        }
+
+        return countHuman - countAI;
+    }
+
     private static int heuristic(State state, Player player) {
         int countHuman = 0;
         int countAI = 0;
-        int[][] fullTable = State.validationTable;
 
         for (int i = 0; i < State.SIZE; i++) {//rows
             boolean winHuman = true;
@@ -115,15 +131,7 @@ public class AIStrategy {
         if (winAI) {
             countAI++;//AI
         }
-//        System.out.println(countHuman + " " + countAI);
-        switch (player.getTag()) {
-            case 1 -> {
-                return countHuman - countAI;
-            }
-            case -1 -> {
-                return countAI - countHuman;
-            }
-        }
-        return 0;
+
+        return countHuman - countAI;
     }
 }
