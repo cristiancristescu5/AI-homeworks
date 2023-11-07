@@ -7,7 +7,7 @@ import org.example.State.Transitions;
 import java.util.Scanner;
 
 public class Game {
-    public static void run(){
+    public static void run(int depth){
         State state = new State();
         Scanner scanner = new Scanner(System.in);
         int move;
@@ -23,6 +23,7 @@ public class Game {
                     System.out.println(state);
                 }else{
                     System.out.println("Invalid move! Try another one");
+                    continue;
                 }
                 if(Transitions.isWinning(state, Player.HUMAN)){
                     System.out.println("Player Human is the winner!");
@@ -37,19 +38,18 @@ public class Game {
             }
             if(round == -1){
                 int bestMove = -1;
-                int bestValue = Integer.MIN_VALUE;
+                int bestValue = Integer.MAX_VALUE;
                 for(int i = 1 ; i < 10 ; i++){
                     if(!state.isChosen(i)){
-                        int val = AIStrategy.minimax(Transitions.nextTransition(state, i, Player.AI), 10, Player.AI);
-                        if(val > bestValue){
+                        int val = AIStrategy.minimax(Transitions.nextTransition(state, i, Player.AI), depth, Player.HUMAN);
+                        if(val < bestValue){
                             bestValue = val;
                             bestMove = i;
                         }
                     }
                 }
                 System.out.println(bestMove);
-                var newState = Transitions.nextTransition(state, bestMove, Player.AI);
-                state = newState;
+                state = Transitions.nextTransition(state, bestMove, Player.AI);
                 round = 1;
                 System.out.println(state);
                 if(Transitions.isWinning(state, Player.AI)){

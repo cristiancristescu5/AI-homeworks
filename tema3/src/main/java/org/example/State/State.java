@@ -1,11 +1,15 @@
 package org.example.State;
 
+import org.example.Player;
+
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
 public class State {
     public static final Integer SIZE = 3;
-    public static final int[][] validationTable = {{2, 7, 6}, {9, 5, 1}, {4, 3, 8}};
+    public static final int[][] validationTable = {{2, 7, 6},
+                                                    {9, 5, 1},
+                                                    {4, 3, 8}};
     private int[][] table;
 
     public State() {
@@ -31,8 +35,11 @@ public class State {
     public boolean isFinal() {
         return Arrays.stream(table)
                 .allMatch(row -> Arrays.stream(row)
-                        .allMatch(element -> element != 0));
+                        .allMatch(element -> element != 0)) ||
+                Transitions.isWinning(this, Player.AI) ||
+                Transitions.isWinning(this, Player.HUMAN);
     }
+
     public boolean isChosen(int cell){
         for(int i = 0 ; i < SIZE ; i++){
             for(int j = 0 ; j < SIZE; j++){
@@ -45,14 +52,7 @@ public class State {
     }
 
     public int getFromCell(int line, int column) {
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                if (i == line && j == column) {
-                    return table[i][j];
-                }
-            }
-        }
-        return -2;
+        return table[line][column];
     }
 
     @Override
@@ -68,7 +68,7 @@ public class State {
                 }
             }
         }
-        return stringBuilder.toString().substring(0, stringBuilder.toString().length()-1);
+        return stringBuilder.substring(0, stringBuilder.toString().length()-1);
     }
 
     public static int getColumn(int value) {

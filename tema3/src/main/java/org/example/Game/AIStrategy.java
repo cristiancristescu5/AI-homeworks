@@ -11,24 +11,24 @@ public class AIStrategy {
 
     public static int minimax(State state, int depth, Player player) {
         if (depth == 0 || state.isFinal()) {
-            return heuristic(state, player);
+            return heuristic(state);
         }
         int value;
         if (player.getTag() == 1) {
             value = Integer.MIN_VALUE;
-            for (State s : getNeighbours(state, Player.HUMAN)) {
+            for (State s : getNeighbours(state, Player.AI)) {
                 value = Integer.max(value, minimax(s, depth - 1, Player.AI));
             }
         } else {
             value = Integer.MAX_VALUE;
-            for (State s : getNeighbours(state, Player.AI)) {
+            for (State s : getNeighbours(state, Player.HUMAN)) {
                 value = Integer.min(value, minimax(s, depth - 1, Player.HUMAN));
             }
         }
         return value;
     }
 
-    private static List<State> getNeighbours(State state, Player player) {
+    public static List<State> getNeighbours(State state, Player player) {
         List<State> states = new ArrayList<>();
         for (int i = 1; i < 10; i++) {
             State newState = Transitions.nextTransition(state, i, player);
@@ -39,23 +39,8 @@ public class AIStrategy {
         return states;
     }
 
-    private static int newHeuristic(State state, Player player) {
-        int countHuman = 0;
-        int countAI = 0;
-        for (int i = 1; i <= 9; i++) {
-            if (!state.isChosen(i)) {
-                if (player.getTag() == 1) {
-                    countHuman++;
-                } else {
-                    countAI++;
-                }
-            }
-        }
 
-        return countHuman - countAI;
-    }
-
-    private static int heuristic(State state, Player player) {
+    private static int heuristic(State state) {
         int countHuman = 0;
         int countAI = 0;
 
@@ -130,6 +115,13 @@ public class AIStrategy {
         }
         if (winAI) {
             countAI++;//AI
+        }
+
+        if(Transitions.isWinning(state, Player.HUMAN)){
+            return Integer.MAX_VALUE;
+        }
+        if(Transitions.isWinning(state, Player.AI)){
+            return Integer.MIN_VALUE;
         }
 
         return countHuman - countAI;
