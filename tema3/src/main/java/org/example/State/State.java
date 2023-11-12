@@ -40,10 +40,10 @@ public class State {
                 Transitions.isWinning(this, Player.HUMAN);
     }
 
-    public boolean isChosen(int cell){
-        for(int i = 0 ; i < SIZE ; i++){
-            for(int j = 0 ; j < SIZE; j++){
-                if(table[i][j] != 0 && validationTable[i][j] == cell){
+    public boolean isChosen(int cell) {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                if (table[i][j] != 0 && validationTable[i][j] == cell) {
                     return true;
                 }
             }
@@ -61,14 +61,18 @@ public class State {
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
                 if (table[i][j] == -1) {
-                    stringBuilder.append("AI: ").append(validationTable[i][j]).append("|");
-                }
-                if (table[i][j] == 1) {
-                    stringBuilder.append("Human: ").append(validationTable[i][j]).append("|");
+                    stringBuilder.append("A: ").append(validationTable[i][j]).append("|");
+                } else {
+                    if (table[i][j] == 1) {
+                        stringBuilder.append("H: ").append(validationTable[i][j]).append("|");
+                    }else{
+                        stringBuilder.append("\t");
+                    }
                 }
             }
+            stringBuilder.append("\n");
         }
-        return stringBuilder.substring(0, stringBuilder.toString().length()-1);
+        return stringBuilder.toString();
     }
 
     public static int getColumn(int value) {
