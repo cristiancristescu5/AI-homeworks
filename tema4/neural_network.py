@@ -1,5 +1,9 @@
+import numpy as np
+
+
 class NeuralNetwork:
     learning_rate = 0.01
+    numEpochs = 10
 
     def __init__(self, __layers):
         self.__layers = __layers
@@ -10,5 +14,8 @@ class NeuralNetwork:
             result = layer.forward(result)
         return result
 
-    # def batch_training(self, learning_rate=0.01, bias=0., epochs=10):
-        # for i in range(1, epochs + 1):
+    def train_model(self, train_set):
+        for ins in train_set:
+            res = self.feed_forward(ins[:-1])
+            print(f"Output layer: {res}")
+            print(f"Expected: {int(ins[7])}, Got: {np.argmax(res) + 1}")
