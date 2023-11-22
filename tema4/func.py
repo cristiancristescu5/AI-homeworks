@@ -23,3 +23,4 @@ def cross_entropy(expected, predicted):
 def softmax_dx(Z):
     softmax_o = np.array(Z).reshape(-1, 1)
     return np.diagflat(softmax_o) - np.dot(softmax_o, softmax_o.T)
+
