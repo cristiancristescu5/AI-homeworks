@@ -18,4 +18,12 @@ neural__network = NeuralNetwork([
     Layer(4, 3, func.softmax, WeightInit.Xavier_Uniform_Distribution)
 ])
 
+<<<<<<< main
 neural__network.train_model(train_data)
+=======
+# print(len(train_data))
+Backpropagation.run(neural__network, train_data, 400, 56, .01)
+
+Validate.validate(neural__network, test_data)
+
+>>>>>>> local
