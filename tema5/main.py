@@ -1,14 +1,23 @@
 import numpy as np
-from transition import Move
-from qlearning import QLearning
-from nicetry import WindyGridworldQlearning
+# from transition import Move
+# from qlearning import QLearning
+# from nicetry import WindyGridworldQlearning
+from windy_grid import QLearning
 
 
 def main():
-    env = WindyGridworldQlearning(num_rows=7, num_cols=10, start_state=(3, 0), goal_state=(3, 7),
-                                  wind_strength=[0, 0, 0, 1, 1, 1, 2, 2, 1, 0])
-    env.q_learning()
-    env.visualize_policy()
+    algorithm_instance = QLearning(
+        (3, 0),
+        (3, 7),
+        (7, 10),
+        np.array([0, 0, 0, 1, 1, 1, 2, 2, 1, 0])
+    )
+    algorithm_instance.run()
+    print(algorithm_instance.q_table)
+    # env = WindyGridworldQlearning(num_rows=7, num_cols=10, start_state=(3, 0), goal_state=(3, 7),
+    #                               wind_strength=[0, 0, 0, 1, 1, 1, 2, 2, 1, 0])
+    # env.q_learning()
+    # env.visualize_policy()
     # Environment parameters
     # num_rows = 7
     # num_cols = 10
