@@ -10,7 +10,7 @@ def main():
         np.array([0, 0, 0, 1, 1, 1, 2, 2, 1, 0])
     )
     algorithm_instance.run()
-    print(algorithm_instance.q_table)
+    algorithm_instance.get_stats()
 
 
 if __name__ == "__main__":

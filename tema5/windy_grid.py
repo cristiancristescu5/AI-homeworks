@@ -1,13 +1,15 @@
 import numpy as np
 from enum import Enum
+import matplotlib.pyplot as plt
 
 
 class QLearning:
     learning_rate = 0.6
     epsilon = 0.1
     default_reward = -1
-    # focuses on long-term reward
+    # focuses on long-term reward on higher values, else on short-terms
     discount_factor = 0.7
+    episodes = 100
 
     class Move(Enum):
         UP = 0
@@ -21,9 +23,14 @@ class QLearning:
         self.grid_shape = grid_shape
         self.wind_force = winds
         self.q_table = None
+        self.rewards = None
 
     def get_action(self, state) -> int:
-        # checks if the action taken will be according to the policy, or it will explore
+        """
+        checks if the action taken will be according to the policy, or it will explore
+        :param state:
+        :return:
+        """
         return np.random.randint(len(QLearning.Move)) \
             if np.random.random() < QLearning.epsilon \
             else np.argmax(self.q_table[state[0], state[1]])
@@ -50,10 +57,16 @@ class QLearning:
 
         return next_state
 
-    def run(self, episodes=100000):
+    def run(self):
+        """
+        run Q-learning algorithm with the static variables as parameters
+        :return:
+        """
         self.q_table = np.zeros(self.grid_shape + (len(QLearning.Move),))
-        for current_episode in range(1, episodes + 1):
+        self.rewards = []
+        for current_episode in range(1, QLearning.episodes + 1):
             state = self.starting_cell
+            episode_reward = 0
             while state != self.end_cell:
                 action = self.get_action(state)
                 next_state = self.transition(state, action)
@@ -67,5 +80,28 @@ class QLearning:
                                                                + QLearning.discount_factor
                                                                * self.q_table[
                                                                    next_state[0], next_state[1], best_next_move]))
-
+                episode_reward += QLearning.default_reward
                 state = next_state
+
+            self.rewards.append(episode_reward)
+
+    def get_stats(self):
+        """get stats about the learning iff learning has taken place"""
+        assert self.q_table is not None and self.rewards is not None
+
+        # get the policy of each element by rows
+        policies = np.argmax(self.q_table, axis=2)
+
+        # for printing the first letter of each move
+        actions = {member.value: member.name for member in QLearning.Move}
+
+        print("Policy:")
+        for row in policies:
+            print([actions[action][0] for action in row])
+
+        plt.plot(self.rewards)
+        plt.xlabel("Episode")
+        plt.ylabel("Total Reward")
+        plt.title(f"Q-learning with \u03B5={QLearning.epsilon}"
+                  f", \u03B1={QLearning.learning_rate} and \u03B3={QLearning.discount_factor}")
+        plt.show()
