@@ -1,1 +1,0 @@
-# matricea + vectorul de vanturi
